@@ -735,11 +735,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellCount:
-    x: 128
-    y: 64
+    x: 256
+    y: 128
   cellSize:
-    x: 0.1
-    y: 0.1
+    x: 0.05
+    y: 0.05
     z: 0
   mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   Material: {fileID: 2100000, guid: 1f72c6094c2e0fb4bad9de9028475635, type: 2}

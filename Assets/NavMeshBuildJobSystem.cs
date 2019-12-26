@@ -8,6 +8,7 @@ using Unity.Physics;
 using Unity.Physics.Systems;
 using UnityEngine;
 
+[DisableAutoCreation]
 [UpdateAfter(typeof(StepPhysicsWorld))]
 [UpdateAfter(typeof(EndFramePhysicsSystem))]
 unsafe public class NavMeshBuildJobSystem : JobComponentSystem
@@ -122,6 +123,7 @@ unsafe public class NavMeshBuildJobSystem : JobComponentSystem
 
         _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
         var jobHandle = calculatorJob.Schedule(this, JobHandle.CombineDependencies(inputDeps, _physicsWorldSystem.FinalJobHandle));
+        //JobHandle.CombineDependencies()
 
         return jobHandle;
     }
