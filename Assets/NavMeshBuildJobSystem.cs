@@ -120,7 +120,7 @@ unsafe public class NavMeshBuildJobSystem : JobComponentSystem
             y = _y
         };
 
-
+        _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
         var jobHandle = calculatorJob.Schedule(this, JobHandle.CombineDependencies(inputDeps, _physicsWorldSystem.FinalJobHandle));
 
         return jobHandle;
