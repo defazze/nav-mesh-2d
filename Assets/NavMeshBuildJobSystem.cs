@@ -34,10 +34,10 @@ unsafe public class NavMeshBuildJobSystem : JobComponentSystem
         {
             _buffer = buffer;
             _buffer.Clear();
-            CalculateAabbs(0, x - 1, 0, y - 1);
+            Calculate(0, x - 1, 0, y - 1);
         }
 
-        private void CalculateAabbs(int xMin, int xMax, int yMin, int yMax)
+        private void Calculate(int xMin, int xMax, int yMin, int yMax)
         {
             var xCount = xMax - xMin + 1;
             var yCount = yMax - yMin + 1;
@@ -45,9 +45,6 @@ unsafe public class NavMeshBuildJobSystem : JobComponentSystem
             var yExt = yCount / 2;
 
             var collisionWorld = physicsWorld.CollisionWorld;
-
-            var hits = new NativeList<int>(Allocator.Temp);
-
 
             BoxGeometry boxGeometry = new BoxGeometry();
             boxGeometry.Center = Vector3.zero;
@@ -81,25 +78,23 @@ unsafe public class NavMeshBuildJobSystem : JobComponentSystem
 
             if (xCount == 1)
             {
-                CalculateAabbs(xMin, xMax, yMin, yMax - yExt);
-                CalculateAabbs(xMin, xMax, yMin + yExt, yMax);
+                Calculate(xMin, xMax, yMin, yMax - yExt);
+                Calculate(xMin, xMax, yMin + yExt, yMax);
             }
             else if (yCount == 1)
             {
-                CalculateAabbs(xMin, xMax - xExt, yMin, yMax);
-                CalculateAabbs(xMin + xExt, xMax, yMin, yMax);
+                Calculate(xMin, xMax - xExt, yMin, yMax);
+                Calculate(xMin + xExt, xMax, yMin, yMax);
             }
             else
             {
-                CalculateAabbs(xMin, xMax - xExt, yMin, yMax - yExt);
-                CalculateAabbs(xMin + xExt, xMax, yMin, yMax - yExt);
-                CalculateAabbs(xMin, xMax - xExt, yMin + yExt, yMax);
-                CalculateAabbs(xMin + xExt, xMax, yMin + yExt, yMax);
+                Calculate(xMin, xMax - xExt, yMin, yMax - yExt);
+                Calculate(xMin + xExt, xMax, yMin, yMax - yExt);
+                Calculate(xMin, xMax - xExt, yMin + yExt, yMax);
+                Calculate(xMin + xExt, xMax, yMin + yExt, yMax);
             }
         }
     }
-
-
 
     protected override void OnCreate()
     {
@@ -127,6 +122,7 @@ unsafe public class NavMeshBuildJobSystem : JobComponentSystem
 
 
         var jobHandle = calculatorJob.Schedule(this, JobHandle.CombineDependencies(inputDeps, _physicsWorldSystem.FinalJobHandle));
+
         return jobHandle;
     }
 }

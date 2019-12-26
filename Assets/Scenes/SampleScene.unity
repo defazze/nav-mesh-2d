@@ -735,8 +735,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellCount:
-    x: 256
-    y: 128
+    x: 128
+    y: 64
   cellSize:
     x: 0.1
     y: 0.1
